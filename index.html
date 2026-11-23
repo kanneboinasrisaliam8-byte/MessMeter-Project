@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MessMeter | ZeroWaste Mess Hack</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand"><span class="brand-icon">🍽️</span><div><h1>MessMeter</h1><p>ZeroWaste Mess Hack</p></div></div>
+    <nav>
+      <a href="#home">Home</a><a href="#weekly-menu">Weekly Menu</a>
+      <a href="#meal-selection">Meal Selection</a><a href="#dashboard">Dashboard</a>
+      <a href="#student-login">Student Login</a><a href="#admin-login">Admin Login</a>
+    </nav>
+  </header>
+
+  <main>
+    <section id="home" class="hero">
+      <div class="hero-content">
+        <span class="eyebrow">SMARTER MEALS • LESS WASTE</span>
+        <h2>Eat Smart. Save Food.<br><span>Save Money.</span></h2>
+        <p>Help your hostel mess prepare the right amount of food by sharing meal choices, rating dishes and tracking food waste.</p>
+        <div class="portal-shortcuts"><a class="btn primary" href="#student-login">🎓 Student Login</a><a class="btn secondary" href="#admin-login">🛡️ Admin Login</a></div>
+      </div>
+      <div class="hero-art" aria-hidden="true"><div class="plate">🥗</div><div class="leaf leaf-one">🌿</div><div class="leaf leaf-two">🍃</div></div>
+    </section>
+
+    <section class="section" id="today-menu">
+      <div class="section-heading"><div><span class="eyebrow">FRESH EVERY DAY</span><h2>Today's Menu</h2></div><span class="date-chip" id="todayDate"></span></div>
+      <div class="meal-grid">
+        <article class="menu-card"><div class="meal-emoji">🥣</div><h3>Breakfast</h3><p>Idli, Sambar &amp; Chutney</p><span class="tag">Vegetarian</span></article>
+        <article class="menu-card"><div class="meal-emoji">🍚</div><h3>Lunch</h3><p>Rice, Dal &amp; Vegetable Curry</p><span class="tag">Vegetarian</span></article>
+        <article class="menu-card"><div class="meal-emoji">☕</div><h3>Snacks</h3><p>Fruit &amp; Tea</p><span class="tag">Light meal</span></article>
+        <article class="menu-card"><div class="meal-emoji">🍛</div><h3>Dinner</h3><p>Chapati &amp; Paneer Curry</p><span class="tag">Vegetarian</span></article>
+      </div>
+    </section>
+
+    <section id="weekly-menu" class="section soft-section">
+      <div class="section-heading"><div><span class="eyebrow">PLAN AHEAD</span><h2>Weekly Mess Menu</h2></div><p class="muted">Sample menu — edit the dishes to match your hostel.</p></div>
+      <div class="weekly-grid" id="weeklyMenu"></div>
+    </section>
+
+    <section id="meal-selection" class="section role-area student-area">
+      <div class="section-heading"><div><span class="eyebrow">STUDENT PORTAL</span><h2>Student Meal Selection</h2></div><span class="tag">Meal changes close 6 hours before service</span></div>
+      <div class="two-column">
+        <div class="panel">
+          <h3>Choose meals for tomorrow</h3>
+          <p class="muted">Tick the meals you plan to eat. Unticked meals count as opt-outs.</p>
+          <label class="field-label" for="studentName">Student name</label>
+          <input id="studentName" type="text" placeholder="Enter your name">
+          <div class="meal-options">
+            <label><input type="checkbox" class="meal-check" value="Breakfast" checked> Breakfast</label>
+            <label><input type="checkbox" class="meal-check" value="Lunch" checked> Lunch</label>
+            <label><input type="checkbox" class="meal-check" value="Snacks" checked> Evening snacks</label>
+            <label><input type="checkbox" class="meal-check" value="Dinner" checked> Dinner</label>
+          </div>
+          <button class="btn primary" id="submitMeals">Submit Meal Selection</button>
+          <p class="notice" id="mealMessage" role="status">Your selection has not been submitted yet.</p>
+        </div>
+        <div class="panel highlight-panel">
+          <div class="big-icon">🌱</div><h3>Every choice counts</h3>
+          <p>Advance meal choices help the mess team estimate attendance and prepare food more responsibly.</p>
+          <div class="stat-line"><span>Registered students</span><strong id="enrolledCount">50</strong></div>
+          <div class="stat-line"><span>Meal responses saved</span><strong id="responseCount">0</strong></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="headcount" class="section soft-section role-area admin-area">
+      <div class="section-heading"><div><span class="eyebrow">PLAN THE RIGHT QUANTITY</span><h2>Daily Headcount Predictor</h2></div></div>
+      <div class="panel calculator">
+        <div><label class="field-label" for="totalStudents">Total enrolled students</label><input id="totalStudents" type="number" min="1" value="50"></div>
+        <div><label class="field-label" for="optedOut">Students opted out</label><input id="optedOut" type="number" min="0" value="15"></div>
+        <div><label class="field-label" for="headcountMeal">Meal</label><select id="headcountMeal"><option>Breakfast</option><option selected>Lunch</option><option>Snacks</option><option>Dinner</option></select></div>
+        <div class="calc-result"><span>Expected headcount</span><strong id="headcountResult">35</strong></div>
+        <button class="btn primary" id="calculateHeadcount">Calculate Headcount</button>
+        <p class="muted full-width">Cooking estimate = expected headcount × standard portion × 1.05 safety margin. This demo shows headcount only.</p>
+      </div>
+    </section>
+
+    <section id="waste" class="section role-area admin-area">
+      <div class="section-heading"><div><span class="eyebrow">MEASURE TO IMPROVE</span><h2>Food Waste Logging</h2></div></div>
+      <div class="two-column">
+        <div class="panel">
+          <h3>Record today's food waste</h3>
+          <label class="field-label" for="wasteDate">Date</label><input id="wasteDate" type="date">
+          <label class="field-label" for="wasteKg">Waste amount (kg)</label><input id="wasteKg" type="number" min="0" step="0.1" placeholder="Example: 4.5">
+          <label class="field-label" for="wasteNote">Notes (optional)</label><input id="wasteNote" type="text" placeholder="Example: Extra rice">
+          <button class="btn primary" id="saveWaste">Save Waste Record</button>
+          <p class="notice" id="wasteMessage" role="status"></p>
+        </div>
+        <div class="panel">
+          <h3>Recent waste records</h3>
+          <div class="table-wrap"><table><thead><tr><th>Date</th><th>Waste</th><th>Notes</th></tr></thead><tbody id="wasteRows"><tr><td colspan="3">No records yet.</td></tr></tbody></table></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="ratings" class="section soft-section role-area student-area">
+      <div class="section-heading"><div><span class="eyebrow">STUDENT FEEDBACK</span><h2>Rate Today's Dishes</h2></div></div>
+      <div class="two-column">
+        <div class="panel">
+          <h3>Share your feedback</h3>
+          <label class="field-label" for="dishName">Dish name</label><input id="dishName" type="text" placeholder="Example: Paneer curry">
+          <label class="field-label" for="dishRating">Rating</label>
+          <select id="dishRating"><option value="5">★★★★★ — Excellent</option><option value="4">★★★★☆ — Very good</option><option value="3">★★★☆☆ — Good</option><option value="2">★★☆☆☆ — Needs improvement</option><option value="1">★☆☆☆☆ — Poor</option></select>
+          <label class="field-label" for="dishFeedback">Feedback (optional)</label><input id="dishFeedback" type="text" placeholder="What did you think?">
+          <button class="btn primary" id="submitRating">Submit Rating</button>
+          <p class="notice" id="ratingMessage" role="status"></p>
+        </div>
+        <div class="panel"><h3>Dish feedback summary</h3><div id="ratingSummary" class="rating-summary">No ratings submitted yet.</div></div>
+      </div>
+    </section>
+
+    <section id="dashboard" class="section role-area admin-area">
+      <div class="section-heading"><div><span class="eyebrow">ZERO WASTE PROGRESS</span><h2>ZeroWaste KPI Dashboard</h2></div><button class="btn secondary" id="exportData">Export Dashboard Data</button></div>
+      <div class="kpi-grid">
+        <div class="kpi-card"><span>Total recorded waste</span><strong id="totalWaste">0 kg</strong></div>
+        <div class="kpi-card"><span>Average dish rating</span><strong id="averageRating">—</strong></div>
+        <div class="kpi-card"><span>Meal responses</span><strong id="dashboardResponses">0</strong></div>
+        <div class="kpi-card"><span>Estimated meals opted in</span><strong id="optedInTotal">0</strong></div>
+      </div>
+      <div class="panel chart-panel"><h3>Daily food waste trend</h3><canvas id="wasteChart" height="110"></canvas><p class="muted" id="chartFallback">Add waste records to see the trend.</p></div>
+      <div class="two-column dashboard-lists">
+        <div class="panel"><h3>Top-rated dishes</h3><div id="topDishes" class="simple-list">No ratings yet.</div></div>
+        <div class="panel"><h3>Dishes needing improvement</h3><div id="lowDishes" class="simple-list">No ratings yet.</div></div>
+      </div>
+    </section>
+
+    <section id="login" class="section soft-section">
+      <div class="section-heading"><div><span class="eyebrow">SECURE ACCOUNT ACCESS</span><h2>Welcome to MessMeter</h2><p class="muted">Students can create an account on first login. Admin accounts are configured by the project administrator.</p></div></div>
+      <div class="two-column">
+        <form class="panel" id="studentLoginForm"><h3 id="student-login">🎓 Student Login</h3><label class="field-label" for="loginStudentName">Student name</label><input id="loginStudentName" required placeholder="Your name"><label class="field-label" for="studentId">Student ID</label><input id="studentId" required placeholder="Your student ID"><label class="field-label" for="studentEmail">Email address</label><input id="studentEmail" type="email" required placeholder="name@example.com"><label class="field-label" for="studentPassword">Password</label><input id="studentPassword" type="password" required placeholder="Password"><button class="btn primary" type="submit">Student Login</button></form>
+        <form class="panel" id="adminLoginForm"><h3 id="admin-login">🛡️ Admin Login</h3><label class="field-label" for="adminEmail">Admin email</label><input id="adminEmail" type="email" required placeholder="admin@example.com"><label class="field-label" for="adminPassword">Password</label><input id="adminPassword" type="password" required placeholder="Password"><button class="btn primary" type="submit">Admin Login</button></form>
+      </div>
+      <div class="panel login-status" id="loginStatus" aria-live="polite">
+        <h3 id="loginStatusTitle">You are browsing as a guest</h3>
+        <p id="loginStatusText" class="muted">Choose Student Login or Admin Login above to preview the matching portal.</p>
+        <button class="btn secondary" id="logoutButton" type="button" hidden>Sign Out</button>
+      </div>
+      <p class="small-print"><strong>Project note:</strong> Authentication, role authorization and data storage are handled by the Express API and MongoDB. Configure the administrator account using environment variables before running the project.</p>
+    </section>
+  </main>
+
+  <footer><strong>🍽️ MessMeter</strong><p>Small choices today. Less food waste tomorrow.</p><span>Student project demonstration</span></footer>
+  <script src="script.js"></script>
+</body>
+</html>
